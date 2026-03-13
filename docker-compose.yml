@@ -1,0 +1,9 @@
+services:
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      MCP_PORT: 9797
+    ports:
+      - "9797:9797"
