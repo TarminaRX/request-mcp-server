@@ -13,7 +13,6 @@ import { cors } from 'hono/cors';
 import * as z from 'zod/v4';
 import { XRest } from '.';
 
-// Create the MCP server
 const server = new McpServer({
     name: 'hono-webstandard-mcp-server',
     version: '1.0.0'
@@ -21,7 +20,6 @@ const server = new McpServer({
 
 const currentSession = new XRest();
 
-// Register a simple greeting tool
 server.registerTool(
     'new_request_session',
     {
@@ -36,11 +34,15 @@ server.registerTool(
     }
 );
 
+// TODO: To implement other methods properly from XRest Class.
 server.registerTool(
     'set_request_base',
     {
         title: 'New Session for Request API tool',
         description: 'A refresher function to clear existing session. Clearing cookies and authStore.',
+        inputSchema: z.object(
+          // something here
+        )
     },
     async (): Promise<CallToolResult> => {
         currentSession.createNewSession()
