@@ -10,6 +10,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@cfworker/json-schema": "^4.1.1",
     "@modelcontextprotocol/server": "./local_packages/modelcontextprotocol-server-2.0.0-alpha.0.tgz",
     "hono": "^4.12.7",
     "impit": "^0.11.0",
