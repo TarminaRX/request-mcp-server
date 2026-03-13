@@ -20,12 +20,13 @@ export type XParams = {
   body?: object
 }
 
-class XRest {
+export class XRest {
   #apiBase?: string;
   #authTok?: string;
   #session?: Impit;
 
   createNewSession() {
+    this.#authTok = undefined
     this.#session = new Impit({
       browser: "chrome",
       ignoreTlsErrors: true,

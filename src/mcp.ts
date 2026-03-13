@@ -11,6 +11,7 @@ import { McpServer, WebStandardStreamableHTTPServerTransport } from '@modelconte
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import * as z from 'zod/v4';
+import { XRest } from '.';
 
 // Create the MCP server
 const server = new McpServer({
@@ -18,28 +19,41 @@ const server = new McpServer({
     version: '1.0.0'
 });
 
+const currentSession = new XRest();
+
 // Register a simple greeting tool
 server.registerTool(
-    'greet',
+    'new_request_session',
     {
-        title: 'Greeting Tool',
-        description: 'A simple greeting tool',
-        inputSchema: z.object({ name: z.string().describe('Name to greet') })
+        title: 'New Session for Request API tool',
+        description: 'A refresher function to clear existing session. Clearing cookies and authStore.',
     },
-    async ({ name }): Promise<CallToolResult> => {
+    async (): Promise<CallToolResult> => {
+        currentSession.createNewSession()
         return {
-            content: [{ type: 'text', text: `Hello, ${name}! (from Hono + WebStandard transport)` }]
+            content: [{ type: 'text', text: `Success! Cleared current Request API session.` }]
         };
     }
 );
 
-// Create a stateless transport (no options = no session management)
+server.registerTool(
+    'set_request_base',
+    {
+        title: 'New Session for Request API tool',
+        description: 'A refresher function to clear existing session. Clearing cookies and authStore.',
+    },
+    async (): Promise<CallToolResult> => {
+        currentSession.createNewSession()
+        return {
+            content: [{ type: 'text', text: `Success! Cleared current Request API session.` }]
+        };
+    }
+);
+
 const transport = new WebStandardStreamableHTTPServerTransport();
 
-// Create the Hono app
 const app = new Hono();
 
-// Enable CORS for all origins
 app.use(
     '*',
     cors({
@@ -50,13 +64,10 @@ app.use(
     })
 );
 
-// Health check endpoint
 app.get('/health', c => c.json({ status: 'ok' }));
 
-// MCP endpoint
 app.all('/mcp', c => transport.handleRequest(c.req.raw));
 
-// Start the server
 const PORT = process.env.MCP_PORT ? Number.parseInt(process.env.MCP_PORT, 10) : 9797;
 
 await server.connect(transport);
