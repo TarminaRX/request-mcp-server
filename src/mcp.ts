@@ -11,7 +11,7 @@ import { McpServer, WebStandardStreamableHTTPServerTransport } from '@modelconte
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import * as z from 'zod/v4';
-import { XRest } from '.';
+import { XRest } from './xrest';
 
 type SessionEntry = {
     server: McpServer;

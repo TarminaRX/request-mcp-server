@@ -1,4 +1,3 @@
-import { password } from "bun";
 import { Impit, type HttpMethod } from "impit";
 import { CookieJar } from "tough-cookie";
 import { extractBetween } from "./utils";
