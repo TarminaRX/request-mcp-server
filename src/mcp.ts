@@ -85,8 +85,8 @@ function createMcpServer(requestSession: XRest): McpServer {
                 endpoint: z.string().min(1).describe('Endpoint path to request, such as /api/auth/me'),
                 method: z.string().min(1).transform(value => value.toUpperCase()).describe('HTTP method, such as GET or POST'),
                 useStoredAuth: z.boolean().default(false).describe('Whether to attach the stored bearer token'),
-                headers: z.record(z.string(), z.string()).optional().describe('Optional request headers'),
-                body: z.record(z.string(), z.unknown()).optional().describe('Optional JSON request body')
+                headers: z.record(z.string(), z.string()).optional().describe('Additional request headers'),
+                body: z.record(z.string(), z.unknown()).optional().describe('POST/PUT JSON request body')
             })
         },
         async ({ endpoint, method, useStoredAuth, headers, body }): Promise<CallToolResult> => {
